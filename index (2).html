@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuk Mengenal Pancasila dan Sila - Sila nya</title>
+    <style>
+        /* ==========================================================================
+           RESET & CORE STYLES
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Comic Sans MS, 'Fredoka', cursive, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #1e293b;
+        }
+
+        /* 16:9 CONTAINER FOR PROJECTIONS & TABLETS */
+        #app-container {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            max-width: 177.78vh;
+            max-height: 100vh;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #f0fdf4 100%);
+            position: relative;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP NAVIGATION CONTROL BAR */
+        #top-bar {
+            height: 52px;
+            background: linear-gradient(90deg, #0284c7 0%, #16a34a 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .bar-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            background: #ffffff;
+            color: #0369a1;
+            border: 2px solid #bae6fd;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+            transition: all 0.2s ease;
+        }
+
+        .btn-ctrl:hover {
+            background: #f0f9ff;
+            transform: translateY(-2px);
+            border-color: #0284c7;
+        }
+
+        .btn-ctrl:active {
+            transform: translateY(0);
+        }
+
+        /* SCREEN CONTAINER */
+        #screen-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 16px 24px 8px 24px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* TYPOGRAPHY & COMMON BUTTONS */
+        h1.title-main {
+            font-size: 2.1rem;
+            color: #0284c7;
+            text-shadow: 2px 2px 0px #bae6fd;
+            text-align: center;
+            margin-bottom: 2px;
+            font-weight: 900;
+        }
+
+        h2.subtitle-main {
+            font-size: 1.05rem;
+            color: #15803d;
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+            color: white;
+            font-size: 1.15rem;
+            font-weight: bold;
+            padding: 10px 30px;
+            border: 3px solid #86efac;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #14532d, 0 6px 12px rgba(0,0,0,0.18);
+            transition: all 0.15s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #14532d;
+        }
+
+        /* ==========================================================================
+           A. HALAMAN PEMBUKA (OPENING SCREEN)
+           ========================================================================== */
+        #screen-splash {
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle, #ffffff 0%, #e0f2fe 100%);
+        }
+
+        .splash-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #38bdf8;
+            border-radius: 28px;
+            padding: 16px 36px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 820px;
+            width: 90%;
+        }
+
+        .garuda-splash-wrapper {
+            width: 170px;
+            height: 170px;
+            margin: 6px 0;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+            animation: floatAnim 3s infinite ease-in-out;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .developer-tag {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin: 6px 0;
+            border: 2px solid #86efac;
+        }
+
+        .instructions {
+            background: #fef08a;
+            color: #854d0e;
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+            border: 2px solid #fde047;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           B. MENU UTAMA (MAIN MENU)
+           ========================================================================== */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 10px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 20px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid #bae6fd;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            height: 200px;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 22px rgba(0,0,0,0.15);
+            border-color: #0284c7;
+            background: #f0f9ff;
+        }
+
+        .menu-card-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+        }
+
+        .menu-card-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #0369a1;
+            line-height: 1.25;
+        }
+
+        /* ==========================================================================
+           C. TUJUAN BELAJAR (LEARNING OBJECTIVES)
+           ========================================================================== */
+        .objective-list {
+            background: white;
+            border-radius: 22px;
+            padding: 20px 28px;
+            width: 90%;
+            max-width: 820px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 3px solid #86efac;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .objective-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.05rem;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .objective-badge {
+            background: #22c55e;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        /* ==========================================================================
+           D. MATERI INTERAKTIF (INTERACTIVE MATERIALS)
+           ========================================================================== */
+        .materi-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 98%;
+            max-width: 1050px;
+            margin-bottom: 10px;
+        }
+
+        .materi-thumb-card {
+            background: white;
+            border: 3px solid #93c5fd;
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #0369a1;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+        }
+
+        .materi-thumb-card.active, .materi-thumb-card:hover {
+            background: #0284c7;
+            color: white;
+            border-color: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        .materi-detail-box {
+            background: white;
+            border-radius: 22px;
+            padding: 16px 22px;
+            width: 98%;
+            max-width: 1050px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 3px solid #38bdf8;
+            flex: 1;
+        }
+
+        .materi-visual {
+            width: 190px;
+            height: 190px;
+            background: #f8fafc;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 3px dashed #93c5fd;
+            padding: 8px;
+        }
+
+        .materi-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .materi-title {
+            font-size: 1.25rem;
+            color: #0284c7;
+            font-weight: 900;
+        }
+
+        .materi-desc {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #334155;
+            background: #f0fdf4;
+            padding: 12px;
+            border-radius: 12px;
+            border-left: 5px solid #22c55e;
+            font-weight: 600;
+        }
+
+        .btn-audio {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 0 #c2410c, 0 4px 8px rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+        }
+
+        .btn-audio:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #c2410c;
+        }
+
+        /* ==========================================================================
+           E. SIMULASI PANCASILA & SILA-SILANYA
+           ========================================================================== */
+        .sim-container {
+            width: 98%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sim-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .sim-action-btn {
+            flex: 1;
+            padding: 10px 6px;
+            border: 3px solid #86efac;
+            background: #f0fdf4;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
+            color: #15803d;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+
+        .sim-action-btn.active {
+            background: #15803d;
+            color: white;
+            border-color: #14532d;
+            transform: scale(1.02);
+        }
+
+        .sim-stage-area {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 3px solid #7dd3fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .sim-textbox {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px 14px;
+            border-left: 5px solid #0284c7;
+            font-size: 0.92rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            width: 20%;
+            transition: width 0.3s ease;
+        }
+
+        /* ==========================================================================
+           F. MISI DRAG AND DROP
+           ========================================================================== */
+        .dnd-container {
+            display: flex;
+            gap: 18px;
+            width: 98%;
+            max-width: 1000px;
+            margin-top: 4px;
+        }
+
+        .dnd-sources, .dnd-targets {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .draggable {
+            background: #fef08a;
+            border: 2px dashed #eab308;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: grab;
+            font-weight: bold;
+            font-size: 0.88rem;
+            color: #854d0e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+            touch-action: none;
+            transition: transform 0.15s;
+        }
+
+        .draggable:active {
+            cursor: grabbing;
+            transform: scale(1.03);
+        }
+
+        .dropzone {
+            background: white;
+            border: 2px dashed #94a3b8;
+            padding: 8px 12px;
+            border-radius: 12px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .dropzone.correct {
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            color: #14532d;
+            font-weight: bold;
+        }
+
+        .dropzone.incorrect {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+        }
+
+        /* ==========================================================================
+           G. KUIS INTERAKTIF
+           ========================================================================== */
+        .quiz-card {
+            background: white;
+            border-radius: 22px;
+            padding: 16px 22px;
+            width: 90%;
+            max-width: 850px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 3px solid #c084fc;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            color: #7e22ce;
+            border-bottom: 2px solid #f3e8ff;
+            padding-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            color: #1e293b;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quiz-opt {
+            background: #f3e8ff;
+            border: 2px solid #d8b4fe;
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #581c87;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .quiz-opt:hover {
+            background: #e9d5ff;
+            transform: translateY(-2px);
+        }
+
+        .quiz-feedback {
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            display: none;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .quiz-feedback.correct {
+            background: #dcfce7;
+            color: #15803d;
+            border: 2px solid #86efac;
+        }
+
+        .quiz-feedback.wrong {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 2px solid #fca5a5;
+        }
+
+        /* ==========================================================================
+           H. REFLEKSI & FOOTER
+           ========================================================================== */
+        .reflection-card {
+            background: white;
+            border-radius: 22px;
+            padding: 16px 22px;
+            width: 90%;
+            max-width: 850px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 3px solid #2dd4bf;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .reflection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+            border-bottom: 1px solid #ccfbf1;
+            padding-bottom: 8px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .emoji-rating {
+            display: flex;
+            gap: 10px;
+        }
+
+        .emoji-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn.selected {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        .reflection-input {
+            width: 100%;
+            height: 55px;
+            border: 2px solid #99f6e4;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .app-footer {
+            height: 28px;
+            background: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            color: #334155;
+            border-top: 1px solid #94a3b8;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        /* SVG UTILITY & ANIMATIONS */
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .animated-pulse {
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes arrowFlow {
+            0% { stroke-dashoffset: 20; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .flow-arrow {
+            stroke-dasharray: 6;
+            animation: arrowFlow 1s linear infinite;
+        }
+
+        /* RESPONSIVE LAYOUT adjustments */
+        @media (max-width: 768px) {
+            h1.title-main { font-size: 1.5rem; }
+            h2.subtitle-main { font-size: 0.9rem; }
+            .menu-grid { grid-template-columns: repeat(3, 1fr); }
+            .materi-cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .materi-detail-box { flex-direction: column; text-align: center; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .dnd-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <!-- TOP CONTROL BAR -->
+    <div id="top-bar">
+        <div class="bar-title">
+            <span style="font-size:1.3rem;">🇮🇩</span>
+            <span>Yuk Mengenal Pancasila dan Sila - Sila nya</span>
+        </div>
+        <div class="controls">
+            <button class="btn-ctrl" onclick="toggleAudio()"><span id="audio-icon">🔊</span> Narasi</button>
+            <button class="btn-ctrl" onclick="resetApp()">🔄 Ulangi</button>
+            <button class="btn-ctrl" onclick="goToMenu()">🏠 Menu</button>
+            <button class="btn-ctrl" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        </div>
+    </div>
+
+    <!-- MAIN SCREEN AREA -->
+    <div id="screen-container">
+
+        <!-- A. HALAMAN PEMBUKA (SPLASH SCREEN) -->
+        <div id="screen-splash" class="screen active">
+            <div class="splash-card">
+                <h1 class="title-main">Pancasila</h1>
+                <h2 class="subtitle-main">Mengenal Pancasila dan sila - silanya</h2>
+                
+                <!-- ILUSTRASI GAMBAR PANCASILA LENGKAP DI TENGAH LAYAR (SVG VECTOR) -->
+                <div class="garuda-splash-wrapper">
+                    <svg viewBox="0 0 200 200">
+                        <!-- Sayap Emas Garuda -->
+                        <path d="M 100 25 L 130 65 L 185 65 L 145 105 L 165 160 L 100 130 L 35 160 L 55 105 L 15 65 L 70 65 Z" fill="#eab308" stroke="#ca8a04" stroke-width="3"/>
+                        <path d="M 100 35 L 125 70 L 170 70 L 135 105 L 150 150 L 100 125 L 50 150 L 65 105 L 30 70 L 75 70 Z" fill="#facc15"/>
+                        <!-- Ekor Garuda -->
+                        <path d="M 100 130 L 85 180 L 100 175 L 115 180 Z" fill="#ca8a04"/>
+                        <!-- Perisai Pancasila -->
+                        <rect x="70" y="65" width="60" height="70" rx="10" fill="#dc2626" stroke="#000" stroke-width="3"/>
+                        <path d="M 70 100 L 130 100" stroke="#000" stroke-width="4"/>
+                        <!-- Quarters inside shield -->
+                        <rect x="72" y="67" width="27" height="31" fill="#0f172a"/>
+                        <rect x="101" y="67" width="27" height="31" fill="#ffffff"/>
+                        <rect x="72" y="102" width="27" height="31" fill="#ffffff"/>
+                        <rect x="101" y="102" width="27" height="31" fill="#ffffff"/>
+                        <!-- Bintang Tengah -->
+                        <polygon points="100,72 103,82 113,82 105,88 108,98 100,92 92,98 95,88 87,82 97,82" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
+                        <!-- Kepala Garuda -->
+                        <circle cx="100" cy="30" r="14" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+                        <polygon points="100,30 118,32 104,38" fill="#eab308"/>
+                        <circle cx="96" cy="28" r="2" fill="#000"/>
+                        <!-- Pita Bhinneka Tunggal Ika -->
+                        <rect x="40" y="160" width="120" height="20" rx="5" fill="#ffffff" stroke="#000" stroke-width="2"/>
+                        <text x="100" y="174" font-size="8.5" font-weight="900" fill="#000" text-anchor="middle">BHINNEKA TUNGGAL IKA</text>
+                    </svg>
+                </div>
+
+                <div class="developer-tag">Pengembang: Putu Indah Cahyani</div>
+                
+                <div class="instructions">
+                    💡 Petunjuk: Klik tombol "Mulai Belajar" di bawah ini untuk membuka Menu Utama dan belajar Pancasila bersama!
+                </div>
+
+                <button class="btn-primary" onclick="goToMenu()">Mulai Belajar</button>
+            </div>
+        </div>
+
+        <!-- B. MENU UTAMA (MAIN MENU) -->
+        <div id="screen-menu" class="screen">
+            <h1 class="title-main">Menu Utama</h1>
+            <h2 class="subtitle-main">Pilih salah satu kartu menu di bawah ini untuk belajar!</h2>
+
+            <div class="menu-grid">
+                <!-- MENU 1 -->
+                <div class="menu-card" onclick="openScreen('screen-tujuan')">
+                    <div class="menu-card-icon">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" fill="#22c55e"/>
+                            <path d="M 32 50 L 45 62 L 68 36" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="menu-card-title">1. Tujuan Belajar</div>
+                </div>
+
+                <!-- MENU 2 -->
+                <div class="menu-card" onclick="openScreen('screen-materi')">
+                    <div class="menu-card-icon">
+                        <svg viewBox="0 0 100 100">
+                            <rect x="18" y="18" width="64" height="64" rx="12" fill="#0284c7"/>
+                            <path d="M 32 36 H 68 M 32 50 H 68 M 32 64 H 52" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="menu-card-title">2. Materi Interaktif</div>
+                </div>
+
+                <!-- MENU 3 -->
+                <div class="menu-card" onclick="openScreen('screen-simulasi')">
+                    <div class="menu-card-icon">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" fill="#eab308"/>
+                            <polygon points="40,30 72,50 40,70" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="menu-card-title">3. Simulasi Pancasila</div>
+                </div>
+
+                <!-- MENU 4 -->
+                <div class="menu-card" onclick="openScreen('screen-dnd')">
+                    <div class="menu-card-icon">
+                        <svg viewBox="0 0 100 100">
+                            <rect x="15" y="25" width="30" height="50" rx="8" fill="#a855f7"/>
+                            <rect x="55" y="25" width="30" height="50" rx="8" fill="#ec4899"/>
+                            <path d="M 35 50 Q 45 30 55 50" stroke="white" stroke-width="5" fill="none" stroke-dasharray="4"/>
+                        </svg>
+                    </div>
+                    <div class="menu-card-title">4. Misi Drag and Drop</div>
+                </div>
+
+                <!-- MENU 5 -->
+                <div class="menu-card" onclick="openScreen('screen-kuis')">
+                    <div class="menu-card-icon">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" fill="#06b6d4"/>
+                            <text x="50" y="68" font-size="48" font-weight="900" fill="white" text-anchor="middle">?</text>
+                        </svg>
+                    </div>
+                    <div class="menu-card-title">5. Kuis dan Refleksi</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- C. TUJUAN BELAJAR (LEARNING OBJECTIVES) -->
+        <div id="screen-tujuan" class="screen">
+            <h1 class="title-main">Tujuan Belajar</h1>
+            <h2 class="subtitle-main">Apa yang akan kamu pelajari hari ini?</h2>
+
+            <div class="objective-list">
+                <div class="objective-item">
+                    <div class="objective-badge">1</div>
+                    <div>Siswa dapat menyebutkan dan melafalkan makna lambang Pancasila.</div>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-badge">2</div>
+                    <div>Siswa dapat mengenali dan mengucapkan nilai-nilai Pancasila.</div>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-badge">3</div>
+                    <div>Siswa dapat mengurutkan sila-sila Pancasila dari Sila ke-1 sampai Sila ke-5.</div>
+                </div>
+                <div class="objective-item">
+                    <div class="objective-badge">4</div>
+                    <div>Siswa dapat memberi contoh makna dan perilaku Pancasila dalam kehidupan sehari-hari.</div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+        <!-- D. MATERI INTERAKTIF (INTERACTIVE MATERIALS) -->
+        <div id="screen-materi" class="screen">
+            <h1 class="title-main">Materi Interaktif</h1>
+            <h2 class="subtitle-main">Klik kartu di bawah untuk mempelajari lambang dan nilai Pancasila!</h2>
+
+            <div class="materi-cards-grid">
+                <div class="materi-thumb-card active" onclick="showMateri(0)">1. Lambang Negara Pancasila</div>
+                <div class="materi-thumb-card" onclick="showMateri(1)">2. Sila Pertama (Bintang)</div>
+                <div class="materi-thumb-card" onclick="showMateri(2)">3. Sila Kedua (Rantai)</div>
+                <div class="materi-thumb-card" onclick="showMateri(3)">4. Sila 4 & 5 (Banteng & Padi Kapas)</div>
+            </div>
+
+            <div class="materi-detail-box">
+                <div class="materi-visual" id="materi-svg-box">
+                    <!-- SVG rendered dynamically -->
+                </div>
+                <div class="materi-info">
+                    <div class="materi-title" id="materi-title-text">Judul Materi</div>
+                    <div class="materi-desc" id="materi-desc-text">Penjelasan materi...</div>
+                    
+                    <!-- ANIMASI PANAH BERGERAK DARI SILA 1 HINGGA SILA 5 -->
+                    <div id="materi-flow-diagram" style="width:100%; height:42px; margin-top:2px;">
+                        <svg viewBox="0 0 350 35">
+                            <!-- Sila 1 -->
+                            <rect x="5" y="6" width="52" height="22" rx="6" fill="#facc15"/>
+                            <text x="31" y="20" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Sila 1 ⭐</text>
+                            
+                            <!-- Panah 1 -->
+                            <line x1="60" y1="17" x2="88" y2="17" stroke="#0284c7" stroke-width="3" class="flow-arrow"/>
+                            <polygon points="88,13 94,17 88,21" fill="#0284c7"/>
+
+                            <!-- Sila 2 -->
+                            <rect x="98" y="6" width="52" height="22" rx="6" fill="#ea580c"/>
+                            <text x="124" y="20" font-size="8.5" font-weight="bold" fill="white" text-anchor="middle">Sila 2 🔗</text>
+
+                            <!-- Panah 2 -->
+                            <line x1="153" y1="17" x2="181" y2="17" stroke="#0284c7" stroke-width="3" class="flow-arrow"/>
+                            <polygon points="181,13 187,17 181,21" fill="#0284c7"/>
+
+                            <!-- Sila 3 -->
+                            <rect x="191" y="6" width="52" height="22" rx="6" fill="#16a34a"/>
+                            <text x="217" y="20" font-size="8.5" font-weight="bold" fill="white" text-anchor="middle">Sila 3 🌳</text>
+
+                            <!-- Panah 3 -->
+                            <line x1="246" y1="17" x2="274" y2="17" stroke="#0284c7" stroke-width="3" class="flow-arrow"/>
+                            <polygon points="274,13 280,17 274,21" fill="#0284c7"/>
+
+                            <!-- Sila 4 & 5 -->
+                            <rect x="284" y="6" width="62" height="22" rx="6" fill="#dc2626"/>
+                            <text x="315" y="20" font-size="8" font-weight="bold" fill="white" text-anchor="middle">Sila 4 & 5 🐂🌾</text>
+                        </svg>
+                    </div>
+
+                    <button class="btn-audio" onclick="speakMateri()">📢 Dengarkan Penjelasan</button>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+        <!-- E. SIMULASI PANCASILA DAN SILA-SILANYA -->
+        <div id="screen-simulasi" class="screen">
+            <h1 class="title-main">Simulasi Sila-Sila Pancasila</h1>
+            <h2 class="subtitle-main">Klik tombol lambang sila di bawah untuk melihat animasi dan contoh sikapnya!</h2>
+
+            <div class="sim-container">
+                <div class="sim-controls">
+                    <button class="sim-action-btn active" onclick="runSimStep(1)">⭐ Sila 1 (Bintang)</button>
+                    <button class="sim-action-btn" onclick="runSimStep(2)">🔗 Sila 2 (Rantai)</button>
+                    <button class="sim-action-btn" onclick="runSimStep(3)">🌳 Sila 3 (Beringin)</button>
+                    <button class="sim-action-btn" onclick="runSimStep(4)">🐂 Sila 4 (Banteng)</button>
+                    <button class="sim-action-btn" onclick="runSimStep(5)">🌾 Sila 5 (Padi Kapas)</button>
+                </div>
+
+                <!-- SIMULASI VISUAL STAGE AREA -->
+                <div class="sim-stage-area" id="sim-visual-box">
+                    <!-- Dynamic Content via JS -->
+                </div>
+
+                <div class="sim-textbox" id="sim-text-desc">
+                    Penjelasan contoh perilaku sesuai Sila Pancasila akan tampil di sini saat tombol diklik.
+                </div>
+
+                <div>
+                    <div style="font-size:0.82rem; font-weight:800; color:#475569;">Indikator Progres Sila: <span id="sim-progress-num">1/5</span></div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="sim-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+        <!-- F. MISI DRAG AND DROP -->
+        <div id="screen-dnd" class="screen">
+            <h1 class="title-main">Misi Drag and Drop</h1>
+            <h2 class="subtitle-main">Tarik lambang sila di kiri ke kotak urutan Sila Pancasila yang tepat di kanan!</h2>
+
+            <div class="dnd-container">
+                <div class="dnd-sources" id="dnd-sources">
+                    <!-- Generated via JS -->
+                </div>
+                <div class="dnd-targets" id="dnd-targets">
+                    <!-- Generated via JS -->
+                </div>
+            </div>
+
+            <div id="dnd-feedback" style="margin-top:8px; font-weight:800; font-size:0.95rem; min-height:22px; text-align:center;"></div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+        <!-- G. KUIS INTERAKTIF -->
+        <div id="screen-kuis" class="screen">
+            <h1 class="title-main">Kuis Interaktif</h1>
+            <h2 class="subtitle-main">Jawablah 10 soal di bawah ini untuk menguji pemahamanmu!</h2>
+
+            <div class="quiz-card" id="quiz-box">
+                <div class="quiz-header">
+                    <span id="quiz-number">Soal 1 dari 10</span>
+                    <span id="quiz-score">Skor: 0</span>
+                </div>
+                <div class="quiz-question" id="quiz-question">Pertanyaan kuis akan tampil di sini?</div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Options JS -->
+                </div>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+                <button class="btn-primary" id="btn-next-quiz" style="display:none; align-self:center; font-size:0.92rem; padding:6px 20px;" onclick="nextQuestion()">Soal Berikutnya ➔</button>
+            </div>
+
+            <!-- HASIL KUIS -->
+            <div class="quiz-card" id="quiz-result-box" style="display:none; text-align:center;">
+                <h2>Hasil Kuis Kamu 🎉</h2>
+                <div id="final-score" style="font-size:3rem; color:#15803d; font-weight:900; margin:10px 0;">100</div>
+                <p id="final-category" style="font-size:1.15rem; font-weight:800; color:#0369a1;"></p>
+                <div style="margin-top:14px; display:flex; gap:12px; justify-content:center;">
+                    <button class="btn-primary" onclick="startQuiz()">Ulangi Kuis</button>
+                    <button class="btn-primary" onclick="openScreen('screen-refleksi')">Lanjut ke Refleksi ➔</button>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+        <!-- H. REFLEKSI -->
+        <div id="screen-refleksi" class="screen">
+            <h1 class="title-main">Refleksi Belajar</h1>
+            <h2 class="subtitle-main">Bagaimana perasaan dan pemahamanmu setelah belajar hari ini?</h2>
+
+            <div class="reflection-card">
+                <div class="reflection-item">
+                    <span>1. Saya sudah paham lambang dan arti sila-sila Pancasila.</span>
+                    <div class="emoji-rating">
+                        <span class="emoji-btn" onclick="selectEmoji(this)">😐</span>
+                        <span class="emoji-btn" onclick="selectEmoji(this)">🙂</span>
+                        <span class="emoji-btn selected" onclick="selectEmoji(this)">😃</span>
+                    </div>
+                </div>
+                <div class="reflection-item">
+                    <span>2. Saya bisa menyebutkan contoh perilaku sesuai Pancasila di sekolah.</span>
+                    <div class="emoji-rating">
+                        <span class="emoji-btn" onclick="selectEmoji(this)">😐</span>
+                        <span class="emoji-btn" onclick="selectEmoji(this)">🙂</span>
+                        <span class="emoji-btn selected" onclick="selectEmoji(this)">😃</span>
+                    </div>
+                </div>
+                <div class="reflection-item">
+                    <span>3. Saya akan menerapkan sikap saling menolong dan rukun dengan teman.</span>
+                    <div class="emoji-rating">
+                        <span class="emoji-btn" onclick="selectEmoji(this)">😐</span>
+                        <span class="emoji-btn" onclick="selectEmoji(this)">🙂</span>
+                        <span class="emoji-btn selected" onclick="selectEmoji(this)">😃</span>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <label style="font-weight:800; font-size:0.9rem; color:#0f766e;">Hal baru yang saya pelajari hari ini adalah ....</label>
+                    <textarea class="reflection-input" placeholder="Tuliskan jawaban belajarmu di sini..."></textarea>
+                </div>
+
+                <button class="btn-primary" style="align-self:center; font-size:0.95rem; padding:8px 24px;" onclick="saveReflection()">Simpan Refleksi</button>
+            </div>
+
+            <button class="btn-primary" onclick="goToMenu()">Kembali ke Menu</button>
+        </div>
+
+    </div>
+
+    <!-- FOOTER KECIL -->
+    <div class="app-footer">
+        Media Pembelajaran Interaktif SD - Pengembang: Putu Indah Cahyani
+    </div>
+</div>
+
+<script>
+    /* ==========================================
+       SVG VECTOR ASSETS (100% OFFLINE STANDALONE)
+       ========================================== */
+    const SVGS = {
+        garuda: `<svg viewBox="0 0 200 200">
+            <!-- Sayap Emas Garuda -->
+            <path d="M 100 25 L 130 65 L 185 65 L 145 105 L 165 160 L 100 130 L 35 160 L 55 105 L 15 65 L 70 65 Z" fill="#eab308" stroke="#ca8a04" stroke-width="3"/>
+            <path d="M 100 35 L 125 70 L 170 70 L 135 105 L 150 150 L 100 125 L 50 150 L 65 105 L 30 70 L 75 70 Z" fill="#facc15"/>
+            <!-- Ekor Garuda -->
+            <path d="M 100 130 L 85 180 L 100 175 L 115 180 Z" fill="#ca8a04"/>
+            <!-- Perisai Pancasila -->
+            <rect x="70" y="65" width="60" height="70" rx="10" fill="#dc2626" stroke="#000" stroke-width="3"/>
+            <path d="M 70 100 L 130 100" stroke="#000" stroke-width="4"/>
+            <!-- Quarters inside shield -->
+            <rect x="72" y="67" width="27" height="31" fill="#0f172a"/>
+            <rect x="101" y="67" width="27" height="31" fill="#ffffff"/>
+            <rect x="72" y="102" width="27" height="31" fill="#ffffff"/>
+            <rect x="101" y="102" width="27" height="31" fill="#ffffff"/>
+            <!-- Bintang Tengah -->
+            <polygon points="100,72 103,82 113,82 105,88 108,98 100,92 92,98 95,88 87,82 97,82" fill="#facc15" stroke="#ca8a04" stroke-width="1"/>
+            <!-- Kepala Garuda -->
+            <circle cx="100" cy="30" r="14" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+            <polygon points="100,30 118,32 104,38" fill="#eab308"/>
+            <circle cx="96" cy="28" r="2" fill="#000"/>
+            <!-- Pita Bhinneka Tunggal Ika -->
+            <rect x="40" y="160" width="120" height="20" rx="5" fill="#ffffff" stroke="#000" stroke-width="2"/>
+            <text x="100" y="174" font-size="8.5" font-weight="900" fill="#000" text-anchor="middle">BHINNEKA TUNGGAL IKA</text>
+        </svg>`,
+
+        star: `<svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#0f172a" rx="16"/>
+            <polygon points="50,12 63,38 90,38 68,55 76,82 50,65 24,82 32,55 10,38 37,38" fill="#facc15" stroke="#eab308" stroke-width="3" class="animated-pulse"/>
+        </svg>`,
+
+        chain: `<svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#dc2626" rx="16"/>
+            <!-- Rantai gelang lingkaran & persegi bersambung -->
+            <circle cx="30" cy="50" r="16" fill="none" stroke="#facc15" stroke-width="7"/>
+            <rect x="44" y="34" width="26" height="32" fill="none" stroke="#facc15" stroke-width="7" rx="4"/>
+            <circle cx="80" cy="50" r="16" fill="none" stroke="#facc15" stroke-width="7"/>
+            <line x1="18" y1="50" x2="88" y2="50" stroke="#facc15" stroke-width="4"/>
+        </svg>`,
+
+        tree: `<svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#ffffff" rx="16" stroke="#16a34a" stroke-width="4"/>
+            <!-- Batang Pohon Beringin -->
+            <path d="M 45 90 L 45 55 Q 35 65 25 75 M 55 90 L 55 55 Q 65 65 75 75" stroke="#78350f" stroke-width="6" fill="none"/>
+            <rect x="46" y="50" width="8" height="40" fill="#78350f"/>
+            <!-- Rimbun Daun -->
+            <circle cx="50" cy="38" r="26" fill="#16a34a"/>
+            <circle cx="32" cy="42" r="18" fill="#22c55e"/>
+            <circle cx="68" cy="42" r="18" fill="#22c55e"/>
+            <circle cx="50" cy="22" r="18" fill="#4ade80"/>
+        </svg>`,
+
+        bull: `<svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#ffffff" rx="16" stroke="#dc2626" stroke-width="4"/>
+            <!-- Kepala Banteng -->
+            <path d="M 25 25 Q 10 20 20 40 Q 30 45 35 40 Z" fill="#0f172a"/>
+            <path d="M 75 25 Q 90 20 80 40 Q 70 45 65 40 Z" fill="#0f172a"/>
+            <circle cx="50" cy="55" r="28" fill="#0f172a"/>
+            <ellipse cx="50" cy="68" rx="18" ry="12" fill="#334155"/>
+            <circle cx="42" cy="68" r="3" fill="#ffffff"/>
+            <circle cx="58" cy="68" r="3" fill="#ffffff"/>
+            <circle cx="40" cy="50" r="4" fill="#ffffff"/>
+            <circle cx="60" cy="50" r="4" fill="#ffffff"/>
+        </svg>`,
+
+        padiKapas: `<svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#ffffff" rx="16" stroke="#eab308" stroke-width="4"/>
+            <!-- Padi Tangkai Kiri -->
+            <path d="M 40 85 Q 25 50 35 20" stroke="#ca8a04" stroke-width="4" fill="none"/>
+            <circle cx="32" cy="30" r="4.5" fill="#facc15"/>
+            <circle cx="28" cy="42" r="4.5" fill="#facc15"/>
+            <circle cx="30" cy="54" r="4.5" fill="#facc15"/>
+            <!-- Kapas Tangkai Kanan -->
+            <path d="M 60 85 Q 75 50 65 20" stroke="#16a34a" stroke-width="4" fill="none"/>
+            <circle cx="68" cy="30" r="6.5" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+            <circle cx="72" cy="45" r="6.5" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+            <circle cx="68" cy="60" r="6.5" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+        </svg>`
+    };
+
+    /* ==========================================
+       DATA MATERI INTERAKTIF
+       ========================================== */
+    const MATERI_DATA = [
+        {
+            title: "1. Lambang Negara Indonesia Pancasila",
+            desc: "Garuda Pancasila adalah Lambang Negara Indonesia. Burung Garuda berdiri gagah melambangkan kebesaran dan kekuatan. Di dadanya terdapat perisai perisai yang berisi 5 simbol Sila Pancasila, dan cengkeraman kakinya memegang pita bertuliskan 'Bhinneka Tunggal Ika'.",
+            svg: SVGS.garuda
+        },
+        {
+            title: "2. Sila Pertama: Bintang (Ketuhanan Yang Maha Esa)",
+            desc: "Sila pertama berbunyi: 'Ketuhanan Yang Maha Esa' dilambangkan Bintang Emas bersudut lima dengan latar hitam. Maknanya, bangsa Indonesia percaya kepada Tuhan Yang Maha Esa, taat beribadah, dan saling menghormati antarumat beragama.",
+            svg: SVGS.star
+        },
+        {
+            title: "3. Sila Kedua: Rantai (Kemanusiaan yang Adil dan Beradab)",
+            desc: "Sila kedua berbunyi: 'Kemanusiaan yang Adil dan Beradab' dilambangkan Rantai Emas. Gelang lingkaran melambangkan perempuan dan gelang persegi melambangkan laki-laki yang saling bersatu, saling menyayangi, dan menolong teman.",
+            svg: SVGS.chain
+        },
+        {
+            title: "4. Sila Keempat & Kelima: Kepala Banteng & Padi Kapas",
+            desc: "Sila ke-4 'Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan dalam Permusyawaratan/Perwakilan' (Kepala Banteng) bermakna suka bermusyawarah. Sila ke-5 'Keadilan Sosial bagi Seluruh Rakyat Indonesia' (Padi & Kapas) bermakna bersikap adil dan tidak pilih kasih.",
+            svg: SVGS.padiKapas
+        }
+    ];
+
+    /* ==========================================
+       DATA SIMULASI PANCASILA
+       ========================================== */
+    const SIMULASI_DATA = [
+        {
+            sila: 1,
+            title: "Sila 1: Ketuhanan Yang Maha Esa (Bintang)",
+            desc: "Contoh Sikap: Berdoa sebelum dan sesudah belajar di kelas, serta menghormati teman yang sedang beribadah sesuai agamanya.",
+            svg: SVGS.star
+        },
+        {
+            sila: 2,
+            title: "Sila 2: Kemanusiaan yang Adil dan Beradab (Rantai)",
+            desc: "Contoh Sikap: Menolong teman yang jatuh di halaman sekolah, bersikap santun kepada guru, serta mau berbagi makanan.",
+            svg: SVGS.chain
+        },
+        {
+            sila: 3,
+            title: "Sila 3: Persatuan Indonesia (Pohon Beringin)",
+            desc: "Contoh Sikap: Rukun bermain bersama teman tanpa membeda-bedakan suku atau daerah asal, serta ikut piket kelas bersama.",
+            svg: SVGS.tree
+        },
+        {
+            sila: 4,
+            title: "Sila 4: Kerakyatan yang Dipimpin... (Kepala Banteng)",
+            desc: "Contoh Sikap: Bermusyawarah memilih ketua kelas, menghargai pendapat teman, dan tidak memaksakan kehendak sendiri.",
+            svg: SVGS.bull
+        },
+        {
+            sila: 5,
+            title: "Sila 5: Keadilan Sosial... (Padi dan Kapas)",
+            desc: "Contoh Sikap: Bersikap adil membagi tugas kelompok, tidak boros menggunakan air/uang, dan menghargai karya teman.",
+            svg: SVGS.padiKapas
+        }
+    ];
+
+    /* ==========================================
+       DATA KUIS (10 SOAL PANCASILA SD KELAS 2)
+       ========================================== */
+    const QUIZ_DATA = [
+        {
+            q: "Lambang negara kita Indonesia adalah ....",
+            opts: ["Burung Garuda Pancasila", "Bendera Merah Putih", "Pohon Beringin", "Bintang Emas"],
+            ans: 0,
+            explain: "Burung Garuda Pancasila merupakan lambang resmi negara Indonesia."
+        },
+        {
+            q: "Sila pertama Pancasila dilambangkan dengan gambar ....",
+            opts: ["Bintang Emas", "Rantai Emas", "Pohon Beringin", "Kepala Banteng"],
+            ans: 0,
+            explain: "Sila ke-1 'Ketuhanan Yang Maha Esa' dilambangkan Bintang Emas."
+        },
+        {
+            q: "Bunyi Sila kedua Pancasila adalah ....",
+            opts: ["Ketuhanan Yang Maha Esa", "Kemanusiaan yang adil dan beradab", "Persatuan Indonesia", "Keadilan sosial bagi seluruh rakyat Indonesia"],
+            ans: 1,
+            explain: "Sila ke-2 berbunyi 'Kemanusiaan yang adil dan beradab'."
+        },
+        {
+            q: "Simbol Rantai Emas merupakan lambang dari Sila ke- ....",
+            opts: ["1", "2", "3", "4"],
+            ans: 1,
+            explain: "Rantai Emas adalah lambang Sila ke-2 Pancasila."
+        },
+        {
+            q: "Menolong teman yang terjatuh di sekolah merupakan contoh perilaku sesuai Sila ke- ....",
+            opts: ["Pertama", "Kedua", "Ketiga", "Kelima"],
+            ans: 1,
+            explain: "Menolong sesama wujud rasa kemanusiaan dan kasih sayang (Sila ke-2)."
+        },
+        {
+            q: "Sila ketiga 'Persatuan Indonesia' dilambangkan oleh simbol ....",
+            opts: ["Pohon Beringin", "Kepala Banteng", "Padi dan Kapas", "Bintang Emas"],
+            ans: 0,
+            explain: "Pohon Beringin melambangkan tempat berteduh dan persatuan bangsa."
+        },
+        {
+            q: "Bermusyawarah memilih ketua kelas adalah contoh perilaku sesuai Sila ke- ....",
+            opts: ["Sila ke-2", "Sila ke-3", "Sila ke-4", "Sila ke-5"],
+            ans: 2,
+            explain: "Sila ke-4 (Kepala Banteng) mengajarkan pentingnya bermusyawarah."
+        },
+        {
+            q: "Padi dan Kapas pada lambang Sila ke-5 melambangkan kebutuhan dasar manusia yaitu ....",
+            opts: ["Pangan (makanan) dan Sandang (pakaian)", "Kekuatan dan Keberanian", "Uang dan Rumah", "Kesehatan dan Kepintaran"],
+            ans: 0,
+            explain: "Padi melambangkan makanan dan kapas melambangkan pakaian untuk kemakmuran adil."
+        },
+        {
+            q: "Berdoa sebelum dan sesudah belajar di sekolah adalah pengamalan Sila ke- ....",
+            opts: ["Sila ke-1", "Sila ke-2", "Sila ke-3", "Sila ke-4"],
+            ans: 0,
+            explain: "Berdoa menunjukkan ketakwaan kepada Tuhan Yang Maha Esa (Sila ke-1)."
+        },
+        {
+            q: "Pita yang dicengkeram Burung Garuda bertuliskan semboyan ....",
+            opts: ["Bhinneka Tunggal Ika", "Tut Wuri Handayani", "Indonesia Raya", "Pancasila Jaya"],
+            ans: 0,
+            explain: "'Bhinneka Tunggal Ika' artinya berbeda-beda tetapi tetap satu jua."
+        }
+    ];
+
+    /* ==========================================
+       GLOBAL STATE & CONTROLLER
+       ========================================== */
+    let isAudioOn = true;
+    let currentMateriIdx = 0;
+    let currentQuizIdx = 0;
+    let quizScore = 0;
+
+    function speakText(text) {
+        if (!isAudioOn) return;
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'id-ID';
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function toggleAudio() {
+        isAudioOn = !isAudioOn;
+        document.getElementById('audio-icon').innerText = isAudioOn ? '🔊' : '🔇';
+        if (!isAudioOn && 'speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function openScreen(screenId) {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(screenId);
+        if (target) target.classList.add('active');
+
+        if (screenId === 'screen-materi') showMateri(0);
+        if (screenId === 'screen-simulasi') runSimStep(1);
+        if (screenId === 'screen-dnd') initDnD();
+        if (screenId === 'screen-kuis') startQuiz();
+    }
+
+    function goToMenu() {
+        openScreen('screen-menu');
+        speakText("Menu Utama. Silakan pilih kegiatan belajarmu!");
+    }
+
+    function resetApp() {
+        openScreen('screen-splash');
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(e => console.log(e));
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+        }
+    }
+
+    /* ==========================================
+       MATERI LOGIC
+       ========================================== */
+    function showMateri(idx) {
+        currentMateriIdx = idx;
+        const data = MATERI_DATA[idx];
+
+        const cards = document.querySelectorAll('.materi-thumb-card');
+        cards.forEach((c, i) => {
+            if (i === idx) c.classList.add('active');
+            else c.classList.remove('active');
+        });
+
+        document.getElementById('materi-svg-box').innerHTML = data.svg;
+        document.getElementById('materi-title-text').innerText = data.title;
+        document.getElementById('materi-desc-text').innerText = data.desc;
+
+        speakMateri();
+    }
+
+    function speakMateri() {
+        const data = MATERI_DATA[currentMateriIdx];
+        speakText(`${data.title}. ${data.desc}`);
+    }
+
+    /* ==========================================
+       SIMULASI LOGIC
+       ========================================== */
+    function runSimStep(step) {
+        const data = SIMULASI_DATA[step - 1];
+
+        const btns = document.querySelectorAll('.sim-action-btn');
+        btns.forEach((b, i) => {
+            if (i === step - 1) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+
+        const stageBox = document.getElementById('sim-visual-box');
+        stageBox.innerHTML = `
+            <div style="width:130px; height:130px;">
+                ${data.svg}
+            </div>
+            <div style="margin-left:20px; text-align:left;">
+                <h3 style="color:#0284c7; font-size:1.15rem; font-weight:800;">${data.title}</h3>
+                <p style="color:#16a34a; font-weight:bold; margin-top:6px; font-size:0.95rem;">Contoh Perilaku Anak Pancasila:</p>
+            </div>
+        `;
+
+        document.getElementById('sim-text-desc').innerText = data.desc;
+        document.getElementById('sim-progress-num').innerText = `${step}/5`;
+        document.getElementById('sim-progress-bar').style.width = `${(step / 5) * 100}%`;
+
+        speakText(`${data.title}. ${data.desc}`);
+    }
+
+    /* ==========================================
+       DRAG AND DROP LOGIC
+       ========================================== */
+    const DND_SILAS = [
+        { id: 1, name: "Sila 1", label: "Bintang Emas", icon: "⭐" },
+        { id: 2, name: "Sila 2", label: "Rantai Emas", icon: "🔗" },
+        { id: 3, name: "Sila 3", label: "Pohon Beringin", icon: "🌳" },
+        { id: 4, name: "Sila 4", label: "Kepala Banteng", icon: "🐂" },
+        { id: 5, name: "Sila 5", label: "Padi dan Kapas", icon: "🌾" }
+    ];
+
+    function initDnD() {
+        const sources = document.getElementById('dnd-sources');
+        const targets = document.getElementById('dnd-targets');
+        const feedback = document.getElementById('dnd-feedback');
+
+        sources.innerHTML = '';
+        targets.innerHTML = '';
+        feedback.innerText = '';
+
+        const shuffled = [...DND_SILAS].sort(() => Math.random() - 0.5);
+
+        shuffled.forEach(item => {
+            const drag = document.createElement('div');
+            drag.className = 'draggable';
+            drag.draggable = true;
+            drag.id = `drag-${item.id}`;
+            drag.innerText = `${item.icon} ${item.label}`;
+
+            drag.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', item.id);
+            });
+
+            sources.appendChild(drag);
+        });
+
+        DND_SILAS.forEach(targetItem => {
+            const drop = document.createElement('div');
+            drop.className = 'dropzone';
+            drop.dataset.id = targetItem.id;
+            drop.innerHTML = `<span>Kotak Urutan: <strong>Sila ke-${targetItem.id}</strong></span>`;
+
+            drop.addEventListener('dragover', (e) => e.preventDefault());
+
+            drop.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const draggedId = e.dataTransfer.getData('text/plain');
+                if (draggedId == targetItem.id) {
+                    drop.classList.add('correct');
+                    drop.innerHTML = `<span>✅ Benar! Sila ke-${targetItem.id} = ${targetItem.label}</span>`;
+                    const draggedNode = document.getElementById(`drag-${draggedId}`);
+                    if (draggedNode) draggedNode.remove();
+                    checkDnDFinish();
+                } else {
+                    drop.classList.add('incorrect');
+                    setTimeout(() => drop.classList.remove('incorrect'), 1000);
+                    feedback.innerText = "❌ Coba perhatikan lagi urutan Sila dan Lambang Pancasila dari yang pertama hingga kelima!";
+                    feedback.style.color = "#dc2626";
+                }
+            });
+
+            targets.appendChild(drop);
+        });
+    }
+
+    function checkDnDFinish() {
+        const sources = document.getElementById('dnd-sources');
+        const feedback = document.getElementById('dnd-feedback');
+        if (sources.children.length === 0) {
+            feedback.innerText = "⭐ Hore! Kamu berhasil mengurutkan seluruh 5 Sila Pancasila dengan benar! ⭐";
+            feedback.style.color = "#15803d";
+            speakText("Luar biasa! Urutan Sila dan Lambang Pancasila kamu sudah benar!");
+        }
+    }
+
+    /* ==========================================
+       KUIS LOGIC
+       ========================================== */
+    function startQuiz() {
+        currentQuizIdx = 0;
+        quizScore = 0;
+        document.getElementById('quiz-box').style.display = 'flex';
+        document.getElementById('quiz-result-box').style.display = 'none';
+        loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+        const q = QUIZ_DATA[currentQuizIdx];
+        document.getElementById('quiz-number').innerText = `Soal ${currentQuizIdx + 1} dari ${QUIZ_DATA.length}`;
+        document.getElementById('quiz-score').innerText = `Skor: ${quizScore}`;
+        document.getElementById('quiz-question').innerText = q.q;
+
+        const optsBox = document.getElementById('quiz-options');
+        optsBox.innerHTML = '';
+
+        const feedback = document.getElementById('quiz-feedback');
+        feedback.style.display = 'none';
+        document.getElementById('btn-next-quiz').style.display = 'none';
+
+        q.opts.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-opt';
+            btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+            btn.onclick = () => checkQuizAnswer(idx);
+            optsBox.appendChild(btn);
+        });
+
+        speakText(`Soal ${currentQuizIdx + 1}. ${q.q}`);
+    }
+
+    function checkQuizAnswer(selected) {
+        const q = QUIZ_DATA[currentQuizIdx];
+        const feedback = document.getElementById('quiz-feedback');
+        const opts = document.querySelectorAll('.quiz-opt');
+
+        opts.forEach(b => b.disabled = true);
+
+        if (selected === q.ans) {
+            quizScore += 10;
+            feedback.className = 'quiz-feedback correct';
+            feedback.innerText = `🎉 Benar Sekali! ${q.explain}`;
+            speakText("Jawabanmu benar!");
+        } else {
+            feedback.className = 'quiz-feedback wrong';
+            feedback.innerText = `❌ Kurang tepat. Jawaban benar adalah: ${q.opts[q.ans]}. Rekomendasi: Pelajari lagi materi tentang ${q.opts[q.ans]}.`;
+            speakText("Jawabanmu kurang tepat.");
+        }
+
+        feedback.style.display = 'block';
+        document.getElementById('quiz-score').innerText = `Skor: ${quizScore}`;
+        document.getElementById('btn-next-quiz').style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+        currentQuizIdx++;
+        if (currentQuizIdx < QUIZ_DATA.length) {
+            loadQuizQuestion();
+        } else {
+            showQuizResult();
+        }
+    }
+
+    function showQuizResult() {
+        document.getElementById('quiz-box').style.display = 'none';
+        const resultBox = document.getElementById('quiz-result-box');
+        resultBox.style.display = 'flex';
+
+        document.getElementById('final-score').innerText = quizScore;
+
+        let cat = "";
+        if (quizScore >= 80) cat = "🏆 Hebat! Bintang Pancasila!";
+        else if (quizScore >= 60) cat = "👍 Bagus Sekali, Tingkatkan Lagi!";
+        else cat = "📚 Ayo Belajar Lagi Bersama Guru dan Teman!";
+
+        document.getElementById('final-category').innerText = cat;
+        speakText(`Kuis selesai. Skor akhir kamu adalah ${quizScore}. ${cat}`);
+    }
+
+    /* ==========================================
+       REFLEKSI LOGIC
+       ========================================== */
+    function selectEmoji(el) {
+        const parent = el.parentElement;
+        parent.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function saveReflection() {
+        speakText("Terima kasih sudah mengisi refleksi! Kamu anak hebat yang membanggakan!");
+        alert("Refleksi belajar kamu berhasil disimpan!");
+    }
+</script>
+
+</body>
+</html>
